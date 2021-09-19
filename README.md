@@ -70,9 +70,15 @@ Once you created the object, you have now access to three methods to set the RGB
     # set all fans to purple (My favorite color btw)
     corsair.set_all(0, 0, (0xff, 0x00, 0xff))
 
-> ########## Warning ##########
-> 
-> The code absolutely needs to run as root
+<div class="warning" style='padding:0.1em; background-color:#E9D8FD; color:#69337A; text-align:center; font-size: medium;'>
+<span>
+<p style='margin-top:1em;'>
+<b>WARNING</b></p>
+<p style='margin-left:1em;'>
+The code absolutely needs to run as root
+</p>
+</div>
+
 
 # Credits
 
