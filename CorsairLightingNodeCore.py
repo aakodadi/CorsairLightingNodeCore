@@ -1,6 +1,5 @@
 import usb.core
 import usb.util
-import time
 
 MAGIC_FRAME_1 = b'\x33\xff' + b'\x00' * 62
 MAGIC_FRAME_2 = b'\x38\x01\x02' + b'\x00' * 61
