@@ -40,7 +40,7 @@ The first parameter in the constructor is an integer between 1 and 6 and it is t
 
 In this case my Corsair Lighting Node has the identifiers `1b1c:0c1a`, meaning `0x1b1c` is the `vendorId` and `0x0c1a` is the `productId`.
 
-If I had multiple devices with the same `vendorId` I would have to specify it in the constructor like this:
+If I had multiple devices with the same `vendorId` I would have to specify the `productId` in the constructor like this:
 
 
     from CorsairLightingNodeCore import CorsairLightingNodeCore
