@@ -1,6 +1,6 @@
 # Description
 
-Corsair Lighting Node CORE is a simple library for controlling RGB fans via [iCUE Lighting Node CORE Digital Fan RGB Lighting Controller](https://www.corsair.com/us/en/Categories/Products/Accessories-%7C-Parts/iCUE-CONTROLLERS/iCUE-Lighting-Node-CORE-Digital-Fan-RGB-Lighting-Controller/p/CL-8930009).
+Corsair Lighting Node CORE is a simple python library for controlling RGB fans via [iCUE Lighting Node CORE Digital Fan RGB Lighting Controller](https://www.corsair.com/us/en/Categories/Products/Accessories-%7C-Parts/iCUE-CONTROLLERS/iCUE-Lighting-Node-CORE-Digital-Fan-RGB-Lighting-Controller/p/CL-8930009).
 
 
 # Platforms
