@@ -83,3 +83,9 @@ The code absolutely needs to run as root
 # Credits
 
 This project is based on [Chlorek](https://github.com/Chlorek)'s work on [Colorsair](https://github.com/Chlorek/Colorsair). Many thanks to him for his hard work on reverse engineering the USB protocol.
+
+# Licensing
+
+GNU GPL v2
+
+See [LICENSE](https://github.com/aakodadi/CorsairLightingNodeCore/blob/main/LICENSE)
