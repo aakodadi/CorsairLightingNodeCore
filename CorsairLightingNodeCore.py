@@ -17,10 +17,10 @@ class CorsairLightingNodeCore:
         self._color_frame[3] = 0x18
 
         if (fan_count < 0 or fan_count > 6):
-            raise Error(f"fan_count should be an integer between 0 and 6, found: {fan_count}")
+            raise ValueError(f'fan_count should be an integer between 0 and 6, found: {fan_count}')
 
         if (led_per_fan < 0 or led_per_fan > 8):
-            raise Error(f"led_per_fan should be an integer between 0 and 8, found: {led_per_fan}")
+            raise ValueError(f'led_per_fan should be an integer between 0 and 8, found: {led_per_fan}')
 
         self.fan_count = fan_count
         self.led_per_fan = led_per_fan
@@ -32,7 +32,7 @@ class CorsairLightingNodeCore:
 
         # was it found?
         if self._device is None:
-            raise Error('Could not find Corsair Lighting Node CORE')
+            raise ConnectionError('Could not find Corsair Lighting Node CORE')
 
         # print(self._device)
 
@@ -66,7 +66,7 @@ class CorsairLightingNodeCore:
         if self._endpoint:
             print("Corsair output node found")
         else:
-            raise Error("Corsair output node not found")
+            raise ConnectionError("Corsair output node not found")
 
     def _send_magic_frames(self):
         for frame in MAGIC_FRAMES:
@@ -75,11 +75,11 @@ class CorsairLightingNodeCore:
 
     def _check_fan(self, fan: int):
         if (fan < 0 or fan >= self.fan_count):
-            raise Error(f"fan should be an integer between 0 and {self.fan_count}, found: {fan}")
+            raise IndexError(f'fan should be an integer between 0 and {self.fan_count}, found: {fan}')
 
     def _check_led(self, led: int):
         if (led < 0 or led >= self.led_per_fan):
-            raise Error(f"led should be an integer between 0 and {self.led_per_fan}, found: {led}")
+            raise IndexError(f'led should be an integer between 0 and {self.led_per_fan}, found: {led}')
     
     def destroy(self):
         if not self._device.is_kernel_driver_active(0):
