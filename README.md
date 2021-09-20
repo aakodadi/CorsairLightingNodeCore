@@ -63,12 +63,13 @@ Once you created the object, you have now access to three methods to set the RGB
 
     corsair = CorsairLightingNodeCore(3, 8, 0x1b1c)
 
-    # set first led on first fan to red
-    corsair.set_led(0, 0, (0xff, 0x00, 0x00))
-    # set second fan to green
-    corsair.set_fan(1, (0x00, 0xff, 0x00))
     # set all fans to purple (My favorite color btw)
     corsair.set_all(0, 0, (0xff, 0x00, 0xff))
+    # set second fan to green
+    corsair.set_fan(1, (0x00, 0xff, 0x00))
+    # set first led on first fan to red
+    corsair.set_led(0, 0, (0xff, 0x00, 0x00))
+    corsair.push()
 
 <div class="warning" style='padding:0.1em; background-color:#E9D8FD; color:#69337A; text-align:center; font-size: medium;'>
 <span>

@@ -92,29 +92,26 @@ class CorsairLightingNodeCore:
     def set_led(self, fan: int, led: int, rgb: tuple[int]):
         self._check_fan(fan)
         self._check_led(led)
-        self._send_magic_frames()
         for c in range(3):
             self._color_frame[4] = c
             self._color_frame[(fan * self.led_per_fan) + led + 5] = rgb[c]
-            r = self._endpoint.write(bytes(bytearray(self._color_frame)), TIMEOUT)
-            assert r == 64
 
     def set_fan(self, fan: int, rgb: tuple[int]):
         self._check_fan(fan)
-        self._send_magic_frames()
         for c in range(3):
             self._color_frame[4] = c
             for l in range(self.led_per_fan):
                 self._color_frame[(fan * self.led_per_fan) + l + 5] = rgb[c]
-                r = self._endpoint.write(bytes(bytearray(self._color_frame)), TIMEOUT)
-                assert r == 64
 
     def set_all(self, rgb: tuple[int]):
-        self._send_magic_frames()
         for c in range(3):
             self._color_frame[4] = c
             for f in range(self.fan_count):
                 for l in range(self.led_per_fan):
                     self._color_frame[(f * self.led_per_fan) + l + 5] = rgb[c]
-                    r = self._endpoint.write(bytes(bytearray(self._color_frame)), TIMEOUT)
-                    assert r == 64
+
+    def push(self):
+        self._send_magic_frames()
+        for c in range(3):
+            r = self._endpoint.write(bytes(bytearray(self._color_frame)), TIMEOUT)
+            assert r == 64
