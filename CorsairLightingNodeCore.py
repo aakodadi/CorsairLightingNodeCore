@@ -105,6 +105,12 @@ class CorsairLightingNodeCore:
         for c in range(3):
             self._color_frame[c][(fan * self.led_per_fan) + led + 5] = rgb[c]
 
+    def set_leds(self, led: int, rgb: tuple[int]):
+        self._check_led(led)
+        for c in range(3):
+            for f in range(self.fan_count):
+                self._color_frame[c][(f * self.led_per_fan) + led + 5] = rgb[c]
+
     def set_fan(self, fan: int, rgb: tuple[int]):
         self._check_fan(fan)
         for c in range(3):

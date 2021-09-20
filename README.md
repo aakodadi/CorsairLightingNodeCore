@@ -53,9 +53,11 @@ If I had multiple devices with the same `vendorId` I would have to specify the `
 
 Once you created the object, you have now access to three methods to set the RGB colors.
 
- - `set_led(fan: int, led: int, rgb: tuple[int])`
- - `set_fan(fan: int, rgb: tuple[int])`
  - `set_all(rgb: tuple[int])`
+ - `set_fan(fan: int, rgb: tuple[int])`
+ - `set_led(fan: int, led: int, rgb: tuple[int])`
+ - `set_leds(led: int, rgb: tuple[int])`
+ - `push()`
 
 ### Example
 
@@ -63,12 +65,18 @@ Once you created the object, you have now access to three methods to set the RGB
 
     corsair = CorsairLightingNodeCore(3, 8, 0x1b1c)
 
+    # first we prepare the color frame
+
     # set all fans to purple (My favorite color btw)
     corsair.set_all(0, 0, (0xff, 0x00, 0xff))
     # set second fan to green
     corsair.set_fan(1, (0x00, 0xff, 0x00))
     # set first led on first fan to red
     corsair.set_led(0, 0, (0xff, 0x00, 0x00))
+    # set the fourth led in all fans to blue
+    corsair.set_leds(3, (0x00, 0x00, 0xff))
+
+    # push the color frame
     corsair.push()
 
 <div class="warning" style='padding:0.1em; background-color:#E9D8FD; color:#69337A; text-align:center; font-size: medium;'>
