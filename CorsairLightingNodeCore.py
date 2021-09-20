@@ -67,8 +67,20 @@ class CorsairLightingNodeCore:
             print("Corsair output node found")
         else:
             raise Error("Corsair output node not found")
-        
 
+    def _send_magic_frames(self):
+        for frame in MAGIC_FRAMES:
+            r = self._endpoint.write(frame, TIMEOUT)
+            assert r == 64
+
+    def _check_fan(self, fan: int):
+        if (fan < 0 or fan >= self.fan_count):
+            raise Error(f"fan should be an integer between 0 and {self.fan_count}, found: {fan}")
+
+    def _check_led(self, led: int):
+        if (led < 0 or led >= self.led_per_fan):
+            raise Error(f"led should be an integer between 0 and {self.led_per_fan}, found: {led}")
+    
     def destroy(self):
         if not self._device.is_kernel_driver_active(0):
             print('Kernel driver is detached. Trying to reattach it')
@@ -78,13 +90,9 @@ class CorsairLightingNodeCore:
                 print(f'Could not reattach kernel driver: {e}')
 
     def set_led(self, fan: int, led: int, rgb: tuple[int]):
-        if (fan < 0 or fan >= self.fan_count):
-            raise Error(f"fan should be an integer between 0 and {self.fan_count}, found: {fan}")
-        if (led < 0 or led >= self.led_per_fan):
-            raise Error(f"led should be an integer between 0 and {self.led_per_fan}, found: {led}")
-        for frame in MAGIC_FRAMES:
-            r = self._endpoint.write(frame, TIMEOUT)
-            assert r == 64
+        self._check_fan(fan)
+        self._check_led(led)
+        self._send_magic_frames()
         for c in range(3):
             self._color_frame[4] = c
             self._color_frame[(fan * self.led_per_fan) + led + 5] = rgb[c]
@@ -92,11 +100,8 @@ class CorsairLightingNodeCore:
             assert r == 64
 
     def set_fan(self, fan: int, rgb: tuple[int]):
-        if (fan < 0 or fan >= self.fan_count):
-            raise Error(f"fan should be an integer between 0 and {self.fan_count}, found: {fan}")
-        for frame in MAGIC_FRAMES:
-            r = self._endpoint.write(frame, TIMEOUT)
-            assert r == 64
+        self._check_fan(fan)
+        self._send_magic_frames()
         for c in range(3):
             self._color_frame[4] = c
             for l in range(self.led_per_fan):
@@ -105,9 +110,7 @@ class CorsairLightingNodeCore:
                 assert r == 64
 
     def set_all(self, rgb: tuple[int]):
-        for frame in MAGIC_FRAMES:
-            r = self._endpoint.write(frame, TIMEOUT)
-            assert r == 64
+        self._send_magic_frames()
         for c in range(3):
             self._color_frame[4] = c
             for f in range(self.fan_count):
