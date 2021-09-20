@@ -12,9 +12,19 @@ TIMEOUT = 5000
 class CorsairLightingNodeCore:
 
     def __init__(self, fan_count: int, led_per_fan: int, vendor_id: int, product_id: int = None):
-        self._color_frame = [0] * 64
-        self._color_frame[0] = 0x32
-        self._color_frame[3] = 0x18
+        color_frame_1 = [0] * 64
+        color_frame_1[0] = 0x32
+        color_frame_1[3] = 0x18
+        color_frame_1[4] = 0
+        color_frame_2 = [0] * 64
+        color_frame_2[0] = 0x32
+        color_frame_2[3] = 0x18
+        color_frame_2[4] = 1
+        color_frame_3 = [0] * 64
+        color_frame_3[0] = 0x32
+        color_frame_3[3] = 0x18
+        color_frame_3[4] = 2
+        self._color_frame = (color_frame_1, color_frame_2, color_frame_3)
 
         if (fan_count < 0 or fan_count > 6):
             raise ValueError(f'fan_count should be an integer between 0 and 6, found: {fan_count}')
@@ -93,25 +103,22 @@ class CorsairLightingNodeCore:
         self._check_fan(fan)
         self._check_led(led)
         for c in range(3):
-            self._color_frame[4] = c
-            self._color_frame[(fan * self.led_per_fan) + led + 5] = rgb[c]
+            self._color_frame[c][(fan * self.led_per_fan) + led + 5] = rgb[c]
 
     def set_fan(self, fan: int, rgb: tuple[int]):
         self._check_fan(fan)
         for c in range(3):
-            self._color_frame[4] = c
             for l in range(self.led_per_fan):
-                self._color_frame[(fan * self.led_per_fan) + l + 5] = rgb[c]
+                self._color_frame[c][(fan * self.led_per_fan) + l + 5] = rgb[c]
 
     def set_all(self, rgb: tuple[int]):
         for c in range(3):
-            self._color_frame[4] = c
             for f in range(self.fan_count):
                 for l in range(self.led_per_fan):
-                    self._color_frame[(f * self.led_per_fan) + l + 5] = rgb[c]
+                    self._color_frame[c][(f * self.led_per_fan) + l + 5] = rgb[c]
 
     def push(self):
         self._send_magic_frames()
         for c in range(3):
-            r = self._endpoint.write(bytes(bytearray(self._color_frame)), TIMEOUT)
+            r = self._endpoint.write(bytes(bytearray(self._color_frame[c])), TIMEOUT)
             assert r == 64
